@@ -34,6 +34,26 @@ class MainView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (MediaQuery.of(context).size.width < kMobileMaxContentWidth) ...[
+                              Center(
+                                child: FadeTransition(
+                                  opacity: AlwaysStoppedAnimation(
+                                      value < 0.8 ? 0 : min(1, (value - 0.8) * 4)),
+                                  child: Neon(
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      radius:
+                                          min(kMaxContentWidth, MediaQuery.of(context).size.width) /
+                                              kMaxContentWidth *
+                                              150.0,
+                                      backgroundImage: const AssetImage(
+                                          'assets/images/melih_hakan_pektas_small.jpg'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                            ],
                             FadeTransition(
                               opacity: AlwaysStoppedAnimation(
                                   value < 0.2 ? 0 : min(1, (value - 0.2) * 4)),
@@ -61,18 +81,23 @@ class MainView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      FadeTransition(
-                        opacity:
-                            AlwaysStoppedAnimation(value < 0.8 ? 0 : min(1, (value - 0.8) * 4)),
-                        child: const Neon(
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: 150.0,
-                            backgroundImage:
-                                AssetImage('assets/images/melih_hakan_pektas_small.jpg'),
+                      if (MediaQuery.of(context).size.width > kMobileMaxContentWidth) ...[
+                        const SizedBox(width: kContentPadding),
+                        FadeTransition(
+                          opacity:
+                              AlwaysStoppedAnimation(value < 0.8 ? 0 : min(1, (value - 0.8) * 4)),
+                          child: Neon(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: min(kMaxContentWidth, MediaQuery.of(context).size.width) /
+                                  kMaxContentWidth *
+                                  150.0,
+                              backgroundImage:
+                                  const AssetImage('assets/images/melih_hakan_pektas_small.jpg'),
+                            ),
                           ),
-                        ),
-                      )
+                        )
+                      ]
                     ],
                   ),
                 ),
