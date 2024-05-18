@@ -1,11 +1,11 @@
-import 'package:cv/shared/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:melihhakanpektas/shared/constants.dart';
 
 class CustomAppBar extends AppBar {
   CustomAppBar({
     String? fontFamily,
     List<Widget>? actions,
+    VoidCallback? titleOnTap,
     super.key,
     super.backgroundColor,
   }) : super(
@@ -14,7 +14,7 @@ class CustomAppBar extends AppBar {
           ],
           automaticallyImplyLeading: false,
           title: SizedBox(
-            width: 1200.0,
+            width: 1200,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kContentPadding),
               child: Row(
@@ -23,21 +23,23 @@ class CustomAppBar extends AppBar {
                   Flexible(
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(
-                        'Melih Hakan Pektas',
-                        style: TextStyle(
-                          color: kSecondaryColor,
-                          fontSize: 25,
-                          fontFamily: GoogleFonts.orbitron().fontFamily!,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.5,
-                          shadows: const [
-                            Shadow(
-                              color: Colors.black,
-                              offset: Offset(1.0, 1.0),
-                              blurRadius: 2.0,
-                            ),
-                          ],
+                      child: InkWell(
+                        onTap: titleOnTap,
+                        child: Text(
+                          'Melih Hakan Pektas',
+                          style: TextStyle(
+                            color: kSecondaryColor,
+                            fontSize: 25,
+                            fontFamily: fontFamily,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.5,
+                            shadows: const [
+                              Shadow(
+                                offset: Offset(1, 1),
+                                blurRadius: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

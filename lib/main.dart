@@ -1,9 +1,10 @@
-import 'package:cv/features/routing/route_utils.dart';
-import 'package:cv/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:melihhakanpektas/features/routing/route_utils.dart';
+import 'package:melihhakanpektas/shared/constants.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
@@ -20,6 +21,7 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
+      title: 'Melih Hakan Pektas',
       routes: RouteUtils.routes,
       initialRoute: '/',
     );
@@ -30,10 +32,12 @@ class _MainAppState extends State<MainApp> {
       fontFamily: GoogleFonts.lato().fontFamily,
       brightness: Brightness.dark,
       colorSchemeSeed: kMainColor,
-      scaffoldBackgroundColor: kMainColor,
       appBarTheme: const AppBarTheme(
-        backgroundColor: kMainColor,
-        elevation: 0.0,
+        color: Colors.transparent,
+        shadowColor: Colors.transparent,
+        foregroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
       ),
     );
   }
