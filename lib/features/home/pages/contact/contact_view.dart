@@ -55,6 +55,23 @@ class ContactView extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.phone),
+                            const SizedBox(width: 10),
+                            TextButton(
+                              onPressed: () {
+                                launchUrlString('tel:+905012533899');
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: const Text('+90 501 253 38 99'),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
                         const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

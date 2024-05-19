@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:melihhakanpektas/features/custom_app_bar/custom_app_bar.dart';
@@ -68,65 +69,82 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           const AnimatedBackground(),
-          Center(
-            child: Container(
-              width: kMaxContentWidth,
-              padding: const EdgeInsets.all(kContentPadding),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.8),
-                    blurRadius: 500,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: kToolbarHeight,
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildPageIndicator(width),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              _buildUpButton(),
-                              Expanded(
-                                child: Center(
-                                  child: PageView(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    scrollDirection: Axis.vertical,
-                                    controller: _pageController,
-                                    children: [
-                                      MainView(
-                                        _scrollControllers[0],
-                                      ),
-                                      AboutMeView(
-                                        _scrollControllers[1],
-                                      ),
-                                      ProjectsView(
-                                        _scrollControllers[2],
-                                      ),
-                                      CertificatesView(_scrollControllers[3]),
-                                      ContactView(_scrollControllers[4]),
-                                    ],
-                                    onPageChanged: (index) {
-                                      _currentPage.value = index;
-                                    },
+          Listener(
+            onPointerSignal: (event) {
+              if (event is PointerScrollEvent) {
+                if (event.scrollDelta.dy > 0) {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                } else {
+                  _pageController.previousPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              }
+            },
+            child: Center(
+              child: Container(
+                width: kMaxContentWidth,
+                padding: const EdgeInsets.all(kContentPadding),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.8),
+                      blurRadius: 500,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: kToolbarHeight,
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildPageIndicator(width),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                _buildUpButton(),
+                                Expanded(
+                                  child: Center(
+                                    child: PageView(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      controller: _pageController,
+                                      children: [
+                                        MainView(
+                                          _scrollControllers[0],
+                                        ),
+                                        AboutMeView(
+                                          _scrollControllers[1],
+                                        ),
+                                        ProjectsView(
+                                          _scrollControllers[2],
+                                        ),
+                                        CertificatesView(_scrollControllers[3]),
+                                        ContactView(_scrollControllers[4]),
+                                      ],
+                                      onPageChanged: (index) {
+                                        _currentPage.value = index;
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                              _buildDownButton(),
-                            ],
+                                _buildDownButton(),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
