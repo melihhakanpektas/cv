@@ -27,82 +27,88 @@ class MainView extends StatelessWidget {
               controller: scrollController,
               child: Padding(
                 padding: const EdgeInsets.all(kContentPadding),
-                child: Row(
+                child: Column(
                   children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (MediaQuery.of(context).size.width < kMobileMaxContentWidth) ...[
-                            Center(
-                              child: FadeTransition(
-                                opacity: AlwaysStoppedAnimation(
-                                  value < 0.8 ? 0 : min(1, (value - 0.8) * 4),
-                                ),
-                                child: Neon(
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    radius:
-                                        min(kMaxContentWidth, MediaQuery.of(context).size.width) /
+                    const SizedBox(height: kToolbarHeight + 30),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (MediaQuery.of(context).size.width < kMobileMaxContentWidth) ...[
+                                Center(
+                                  child: FadeTransition(
+                                    opacity: AlwaysStoppedAnimation(
+                                      value < 0.8 ? 0 : min(1, (value - 0.8) * 4),
+                                    ),
+                                    child: Neon(
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        radius: min(kMaxContentWidth,
+                                                MediaQuery.of(context).size.width) /
                                             kMaxContentWidth *
                                             150.0,
-                                    backgroundImage: const AssetImage(
-                                      'assets/images/melih_hakan_pektas_small.jpg',
+                                        backgroundImage: const AssetImage(
+                                          'assets/images/melih_hakan_pektas_small.jpg',
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
+                                const SizedBox(height: 20),
+                              ],
+                              FadeTransition(
+                                opacity: AlwaysStoppedAnimation(
+                                  value < 0.2 ? 0 : min(1, (value - 0.2) * 4),
+                                ),
+                                child: const Text(
+                                  "Hello, I'm",
+                                  style: TextStyle(fontSize: 30),
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
-                          FadeTransition(
-                            opacity: AlwaysStoppedAnimation(
-                              value < 0.2 ? 0 : min(1, (value - 0.2) * 4),
-                            ),
-                            child: const Text(
-                              "Hello, I'm",
-                              style: TextStyle(fontSize: 30),
-                            ),
+                              FadeTransition(
+                                opacity: AlwaysStoppedAnimation(
+                                  value < 0.4 ? 0 : min(1, (value - 0.4) * 4),
+                                ),
+                                child: const Text(
+                                  'Melih Hakan Pektas',
+                                  style: TextStyle(fontSize: 50),
+                                ),
+                              ),
+                              FadeTransition(
+                                opacity: AlwaysStoppedAnimation(
+                                  value < 0.6 ? 0 : min(1, (value - 0.6) * 4),
+                                ),
+                                child: const Text(
+                                  'I am a Mobile Application Developer mostly using Flutter with +2 years of experience',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ],
                           ),
+                        ),
+                        if (MediaQuery.of(context).size.width > kMobileMaxContentWidth) ...[
+                          const SizedBox(width: kContentPadding),
                           FadeTransition(
-                            opacity: AlwaysStoppedAnimation(
-                              value < 0.4 ? 0 : min(1, (value - 0.4) * 4),
-                            ),
-                            child: const Text(
-                              'Melih Hakan Pektas',
-                              style: TextStyle(fontSize: 50),
-                            ),
-                          ),
-                          FadeTransition(
-                            opacity: AlwaysStoppedAnimation(
-                              value < 0.6 ? 0 : min(1, (value - 0.6) * 4),
-                            ),
-                            child: const Text(
-                              'I am a Mobile Application Developer mostly using Flutter with +2 years of experience',
-                              style: TextStyle(fontSize: 18),
+                            opacity:
+                                AlwaysStoppedAnimation(value < 0.8 ? 0 : min(1, (value - 0.8) * 4)),
+                            child: Neon(
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: min(kMaxContentWidth, MediaQuery.of(context).size.width) /
+                                    kMaxContentWidth *
+                                    150.0,
+                                backgroundImage:
+                                    const AssetImage('assets/images/melih_hakan_pektas_small.jpg'),
+                              ),
                             ),
                           ),
                         ],
-                      ),
+                      ],
                     ),
-                    if (MediaQuery.of(context).size.width > kMobileMaxContentWidth) ...[
-                      const SizedBox(width: kContentPadding),
-                      FadeTransition(
-                        opacity:
-                            AlwaysStoppedAnimation(value < 0.8 ? 0 : min(1, (value - 0.8) * 4)),
-                        child: Neon(
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: min(kMaxContentWidth, MediaQuery.of(context).size.width) /
-                                kMaxContentWidth *
-                                150.0,
-                            backgroundImage:
-                                const AssetImage('assets/images/melih_hakan_pektas_small.jpg'),
-                          ),
-                        ),
-                      ),
-                    ],
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),

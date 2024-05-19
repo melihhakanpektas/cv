@@ -25,6 +25,7 @@ class ContactView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: kToolbarHeight + 30),
                   FadeTransition(
                     opacity: AlwaysStoppedAnimation(value < 0.2 ? 0 : min(1, (value - 0.2) * 4)),
                     child: const Text(
@@ -92,6 +93,7 @@ class ContactView extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),

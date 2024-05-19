@@ -51,41 +51,46 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: kMainColor,
       endDrawer: _buildDrawer(context),
-      body: Stack(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(kContentPadding),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                colors: [
-                  kMainColor,
-                  Color.fromARGB(255, 20, 33, 44),
-                  kMainColor,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      body: Listener(
+        onPointerSignal: (event) {
+          if (event is PointerScrollEvent &&
+              event.scrollDelta.dy < 0 &&
+              _scrollControllers[_currentPage.value].position.pixels == 0) {
+            _pageController.previousPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          } else if (event is PointerScrollEvent &&
+              event.scrollDelta.dy > 0 &&
+              _scrollControllers[_currentPage.value].position.pixels ==
+                  _scrollControllers[_currentPage.value].position.maxScrollExtent) {
+            _pageController.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          }
+        },
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Container(
+                padding: const EdgeInsets.all(kContentPadding),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                    colors: [
+                      kMainColor,
+                      Color.fromARGB(255, 20, 33, 44),
+                      kMainColor,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
               ),
             ),
-          ),
-          const AnimatedBackground(),
-          Listener(
-            onPointerSignal: (event) {
-              if (event is PointerScrollEvent) {
-                if (event.scrollDelta.dy > 0) {
-                  _pageController.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                } else {
-                  _pageController.previousPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                }
-              }
-            },
-            child: Center(
+            const AnimatedBackground(),
+            Align(
               child: Container(
                 width: kMaxContentWidth,
                 padding: const EdgeInsets.all(kContentPadding),
@@ -99,45 +104,34 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: kToolbarHeight,
-                    ),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildPageIndicator(width),
                           Expanded(
-                            child: Column(
-                              children: [
-                                _buildUpButton(),
-                                Expanded(
-                                  child: Center(
-                                    child: PageView(
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      scrollDirection: Axis.vertical,
-                                      controller: _pageController,
-                                      children: [
-                                        MainView(
-                                          _scrollControllers[0],
-                                        ),
-                                        AboutMeView(
-                                          _scrollControllers[1],
-                                        ),
-                                        ProjectsView(
-                                          _scrollControllers[2],
-                                        ),
-                                        CertificatesView(_scrollControllers[3]),
-                                        ContactView(_scrollControllers[4]),
-                                      ],
-                                      onPageChanged: (index) {
-                                        _currentPage.value = index;
-                                      },
-                                    ),
+                            child: Center(
+                              child: PageView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                controller: _pageController,
+                                children: [
+                                  MainView(
+                                    _scrollControllers[0],
                                   ),
-                                ),
-                                _buildDownButton(),
-                              ],
+                                  AboutMeView(
+                                    _scrollControllers[1],
+                                  ),
+                                  ProjectsView(
+                                    _scrollControllers[2],
+                                  ),
+                                  CertificatesView(_scrollControllers[3]),
+                                  ContactView(_scrollControllers[4]),
+                                ],
+                                onPageChanged: (index) {
+                                  _currentPage.value = index;
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -147,9 +141,11 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
-          ),
-          _buildAppBar(context),
-        ],
+            _buildUpButton(),
+            _buildDownButton(),
+            _buildAppBar(context),
+          ],
+        ),
       ),
     );
   }
@@ -332,29 +328,35 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildDownButton() {
-    return ValueListenableBuilder(
-      valueListenable: _currentPage,
-      builder: (context, value, child) {
-        return AnimatedOpacity(
-          duration: const Duration(milliseconds: 500),
-          opacity: value == 4 ? 0.0 : 1.0,
-          child: TextButton(
-            onPressed: value == 4
-                ? null
-                : () {
-                    _pageController.nextPage(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-            child: const Icon(
-              Icons.keyboard_arrow_down_rounded,
-              size: 50,
-              color: kSecondaryColor,
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ValueListenableBuilder(
+        valueListenable: _currentPage,
+        builder: (context, value, child) {
+          return AnimatedOpacity(
+            duration: const Duration(milliseconds: 500),
+            opacity: value == 4 ? 0.0 : 1.0,
+            child: SizedBox(
+              width: kMaxContentWidth,
+              child: TextButton(
+                onPressed: value == 4
+                    ? null
+                    : () {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                child: const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 50,
+                  color: kSecondaryColor,
+                ),
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -380,30 +382,39 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  ValueListenableBuilder<int> _buildUpButton() {
-    return ValueListenableBuilder(
-      valueListenable: _currentPage,
-      builder: (context, value, child) {
-        return AnimatedOpacity(
-          duration: const Duration(milliseconds: 500),
-          opacity: value == 0 ? 0.0 : 1.0,
-          child: TextButton(
-            onPressed: value == 0
-                ? null
-                : () {
-                    _pageController.previousPage(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-            child: const Icon(
-              Icons.keyboard_arrow_up_rounded,
-              size: 50,
-              color: kSecondaryColor,
+  Widget _buildUpButton() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: ValueListenableBuilder(
+        valueListenable: _currentPage,
+        builder: (context, value, child) {
+          return Padding(
+            padding: const EdgeInsets.only(top: kToolbarHeight),
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 500),
+              opacity: value == 0 ? 0.0 : 1.0,
+              child: SizedBox(
+                width: kMaxContentWidth,
+                child: TextButton(
+                  onPressed: value == 0
+                      ? null
+                      : () {
+                          _pageController.previousPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                  child: const Icon(
+                    Icons.keyboard_arrow_up_rounded,
+                    size: 50,
+                    color: kSecondaryColor,
+                  ),
+                ),
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

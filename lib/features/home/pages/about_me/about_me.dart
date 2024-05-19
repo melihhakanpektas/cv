@@ -25,6 +25,7 @@ class AboutMeView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: kToolbarHeight + 30),
                   FadeTransition(
                     opacity: AlwaysStoppedAnimation(value < 0.2 ? 0 : min(1, (value - 0.2) * 4)),
                     child: const Text(
@@ -43,6 +44,7 @@ class AboutMeView extends StatelessWidget {
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
