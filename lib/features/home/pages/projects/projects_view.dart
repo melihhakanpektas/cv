@@ -41,6 +41,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          const SizedBox(height: kToolbarHeight + 30),
                           FadeTransition(
                             opacity:
                                 AlwaysStoppedAnimation(value < 0.2 ? 0 : min(1, (value - 0.2) * 4)),
@@ -111,6 +112,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 30),
                         ],
                       ),
                     ),
