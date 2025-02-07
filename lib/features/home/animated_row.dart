@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:melihhakanpektas/shared/neon_widget.dart';
 
 class AnimatedRow extends StatelessWidget {
   const AnimatedRow({
@@ -37,11 +38,13 @@ class AnimatedRow extends StatelessWidget {
               Container(
                 width: pngWidth,
                 padding: const EdgeInsets.all(padding),
-                child: Image.asset(
-                  ltr
-                      ? newPngs[(i + repeatIndex) % newPngs.length]
-                      : newPngs[(newPngs.length - 1 - i + repeatIndex) % newPngs.length],
-                  height: pngHeight - padding * 2,
+                child: Neon(
+                  child: Image.asset(
+                    ltr
+                        ? newPngs[(i + repeatIndex) % newPngs.length]
+                        : newPngs[(newPngs.length - 1 - i + repeatIndex) % newPngs.length],
+                    height: pngHeight - padding * 2,
+                  ),
                 ),
               ),
           ],

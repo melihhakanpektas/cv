@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:melihhakanpektas/shared/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class ContactView extends StatelessWidget {
+class ContactView extends StatefulWidget {
   const ContactView(
     this.scrollController, {
     super.key,
@@ -12,16 +13,43 @@ class ContactView extends StatelessWidget {
   final ScrollController scrollController;
 
   @override
-  Widget build(BuildContext context) {
-    return TweenAnimationBuilder(
+  State<ContactView> createState() => _ContactViewState();
+}
+
+class _ContactViewState extends State<ContactView> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
       duration: const Duration(seconds: 4),
-      tween: Tween<double>(begin: 0, end: 1),
-      builder: (context, double value, child) {
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    try {
+      _animationController.dispose();
+    } catch (e) {
+      debugPrint('Error during dispose: $e');
+    } finally {
+      super.dispose();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        final value = _animationController.value;
         return Padding(
           padding: const EdgeInsets.all(kContentPadding),
           child: Center(
             child: SingleChildScrollView(
-              controller: scrollController,
+              controller: widget.scrollController,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -39,38 +67,55 @@ class ContactView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.email),
-                            const SizedBox(width: 10),
-                            TextButton(
-                              onPressed: () {
-                                launchUrlString('mailto:contact@melihhakanpektas.com');
-                              },
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                              ),
-                              child: const Text('contact@melihhakanpektas.com'),
-                            ),
-                          ],
+                        ContactRow(
+                          icon: const Icon(Icons.email, color: Colors.blue),
+                          onPressed: () {
+                            launchUrlString('mailto:contact@melihhakanpektas.com');
+                          },
+                          label: 'contact@melihhakanpektas.com',
                         ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.phone),
-                            const SizedBox(width: 10),
-                            TextButton(
-                              onPressed: () {
-                                launchUrlString('tel:+905012533899');
-                              },
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                              ),
-                              child: const Text('+90 501 253 38 99'),
-                            ),
-                          ],
+                        ContactRow(
+                          icon: Icon(MdiIcons.linkedin, color: Colors.blue[700]),
+                          onPressed: () {
+                            launchUrlString('https://www.linkedin.com/in/melihhakanpektas/');
+                          },
+                          label: 'melihhakanpektas',
+                        ),
+                        ContactRow(
+                          icon: Icon(MdiIcons.github, color: Colors.blueGrey),
+                          onPressed: () {
+                            launchUrlString('https://www.github.com/crescodev/');
+                          },
+                          label: 'crescodev',
+                        ),
+                        ContactRow(
+                          icon: Icon(MdiIcons.instagram, color: Colors.pink),
+                          onPressed: () {
+                            launchUrlString('https://www.instagram.com/crescodev/');
+                          },
+                          label: 'crescodev',
+                        ),
+                        ContactRow(
+                          icon: Icon(MdiIcons.youtube, color: Colors.red),
+                          onPressed: () {
+                            launchUrlString('https://www.youtube.com/crescodev/');
+                          },
+                          label: 'crescodev',
+                        ),
+                        ContactRow(
+                          icon: const Icon(
+                            Icons.image,
+                            size: 24,
+                          ),
+                          onPressed: () {
+                            launchUrlString('https://www.kick.com/crescodev/');
+                          },
+                          label: 'crescodev',
+                          leading: Image.asset(
+                            'assets/images/kick_icon.jpg',
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         const Row(
@@ -100,6 +145,42 @@ class ContactView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class ContactRow extends StatelessWidget {
+  const ContactRow({
+    required this.icon,
+    required this.onPressed,
+    required this.label,
+    super.key,
+    this.leading,
+  });
+
+  final Icon icon;
+  final VoidCallback onPressed;
+  final String label;
+  final Widget? leading;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        leading ?? icon,
+        const SizedBox(width: 10),
+        TextButton(
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(label),
+          ),
+        ),
+      ],
     );
   }
 }

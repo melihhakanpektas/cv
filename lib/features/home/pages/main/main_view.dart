@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:melihhakanpektas/shared/constants.dart';
 import 'package:melihhakanpektas/shared/neon_widget.dart';
 
-class MainView extends StatelessWidget {
+class MainView extends StatefulWidget {
   const MainView(
     this.scrollController, {
     super.key,
@@ -12,11 +12,38 @@ class MainView extends StatelessWidget {
   final ScrollController scrollController;
 
   @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    try {
+      _animationController.dispose();
+    } catch (e) {
+      debugPrint('Error during dispose: $e');
+    } finally {
+      super.dispose();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder(
-      duration: const Duration(seconds: 3),
-      tween: Tween<double>(begin: 0, end: 1),
-      builder: (context, double value, child) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        final value = _animationController.value;
         return FadeTransition(
           opacity: CurvedAnimation(
             parent: AlwaysStoppedAnimation(min(1, value * 3)),
@@ -24,7 +51,7 @@ class MainView extends StatelessWidget {
           ),
           child: Center(
             child: SingleChildScrollView(
-              controller: scrollController,
+              controller: widget.scrollController,
               child: Padding(
                 padding: const EdgeInsets.all(kContentPadding),
                 child: Column(
@@ -46,8 +73,10 @@ class MainView extends StatelessWidget {
                                     child: Neon(
                                       child: CircleAvatar(
                                         backgroundColor: Colors.transparent,
-                                        radius: min(kMaxContentWidth,
-                                                MediaQuery.of(context).size.width) /
+                                        radius: min(
+                                              kMaxContentWidth,
+                                              MediaQuery.of(context).size.width,
+                                            ) /
                                             kMaxContentWidth *
                                             150.0,
                                         backgroundImage: const AssetImage(
@@ -82,7 +111,7 @@ class MainView extends StatelessWidget {
                                   value < 0.6 ? 0 : min(1, (value - 0.6) * 4),
                                 ),
                                 child: const Text(
-                                  'I am a Mobile Application Developer mostly using Flutter with +2 years of experience',
+                                  'I am a Mobile Application Developer mostly using Flutter with +4 years of experience',
                                   style: TextStyle(fontSize: 18),
                                 ),
                               ),

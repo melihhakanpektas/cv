@@ -49,11 +49,15 @@ class _DotIndicatorState extends State<DotIndicator> with TickerProviderStateMix
 
   @override
   void dispose() {
-    _heightController
-      ..removeListener(_listener)
-      ..dispose();
-    _widthController.dispose();
-    super.dispose();
+    try {
+      _heightAnimation.removeListener(_listener);
+      _heightController.dispose();
+      _widthController.dispose();
+    } catch (e) {
+      debugPrint('Error during dispose: $e');
+    } finally {
+      super.dispose();
+    }
   }
 
   @override
@@ -84,8 +88,8 @@ class _DotIndicatorState extends State<DotIndicator> with TickerProviderStateMix
                     height: width < kMobileMaxContentWidth ? 10 : _heightAnimation.value,
                     decoration: BoxDecoration(
                       color: value == widget.index
-                          ? Colors.white.withOpacity(0.8)
-                          : Colors.white.withOpacity(0.2),
+                          ? Colors.white.withValues(alpha: 0.8)
+                          : Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: AnimatedOpacity(

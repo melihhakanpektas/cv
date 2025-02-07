@@ -22,10 +22,12 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     'assets/images/background_images/node_js_0.png',
     'assets/images/background_images/swift_0.png',
     'assets/images/background_images/vscode_0.png',
-    'assets/images/background_images/photoshop_0.png',
     'assets/images/background_images/xcode_0.png',
     'assets/images/background_images/app_store_0.png',
     'assets/images/background_images/google_play_store_0.png',
+    'assets/images/background_images/c++_0.png',
+    'assets/images/background_images/unreal_engine_0.png',
+    'assets/images/background_images/blender_0.png',
   ];
   final List<List<String>> pngLists = [];
   int repeatIndex = 0;
@@ -61,9 +63,16 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
 
   @override
   void dispose() {
-    _controller.dispose();
-    _animation.removeListener(listener);
-    super.dispose();
+    try {
+      _controller
+        ..removeListener(listener)
+        ..dispose();
+      _animation.removeListener(listener);
+    } catch (e) {
+      debugPrint('Error during dispose: $e');
+    } finally {
+      super.dispose();
+    }
   }
 
   @override

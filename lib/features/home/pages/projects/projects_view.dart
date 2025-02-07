@@ -151,13 +151,24 @@ class ProjectWidget extends StatefulWidget {
 }
 
 class _ProjectWidgetState extends State<ProjectWidget> {
-  ValueNotifier<bool> isHovered = ValueNotifier<bool>(false);
+  late final ValueNotifier<bool> isHovered;
   final key = UniqueKey();
 
   @override
+  void initState() {
+    super.initState();
+    isHovered = ValueNotifier<bool>(false);
+  }
+
+  @override
   void dispose() {
-    super.dispose();
-    isHovered.dispose();
+    try {
+      isHovered.dispose();
+    } catch (e) {
+      debugPrint('Error during dispose: $e');
+    } finally {
+      super.dispose();
+    }
   }
 
   @override
@@ -184,7 +195,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
           splashColor: Colors.transparent,
           focusColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          overlayColor: MaterialStateProperty.all(Colors.transparent),
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
           onTap: () {
             Navigator.of(context).push(
               HeroDialogRoute<void>(

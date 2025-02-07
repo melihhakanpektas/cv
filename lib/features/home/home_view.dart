@@ -37,12 +37,17 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void dispose() {
-    super.dispose();
-    _pageController.dispose();
-    for (final controller in _scrollControllers) {
-      controller.dispose();
+    try {
+      for (final controller in _scrollControllers) {
+        controller.dispose();
+      }
+      _pageController.dispose();
+      _currentPage.dispose();
+    } catch (e) {
+      debugPrint('Error during dispose: $e');
+    } finally {
+      super.dispose();
     }
-    _currentPage.dispose();
   }
 
   @override
@@ -97,7 +102,7 @@ class _HomeViewState extends State<HomeView> {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.8),
+                      color: Colors.black.withValues(alpha: 0.8),
                       blurRadius: 500,
                     ),
                   ],
@@ -162,7 +167,7 @@ class _HomeViewState extends State<HomeView> {
         fontFamily: GoogleFonts.orbitron().fontFamily,
         actions: MediaQuery.of(context).size.width > kMobileMaxContentWidth
             ? [
-                actionsText(
+                actionsTextButton(
                   'Hello',
                   onPressed: () {
                     _pageController.animateToPage(
@@ -173,7 +178,7 @@ class _HomeViewState extends State<HomeView> {
                   },
                 ),
                 const SizedBox(width: 20),
-                actionsText(
+                actionsTextButton(
                   'About Me',
                   onPressed: () {
                     _pageController.animateToPage(
@@ -184,7 +189,7 @@ class _HomeViewState extends State<HomeView> {
                   },
                 ),
                 const SizedBox(width: 20),
-                actionsText(
+                actionsTextButton(
                   'Projects',
                   onPressed: () {
                     _pageController.animateToPage(
@@ -195,7 +200,7 @@ class _HomeViewState extends State<HomeView> {
                   },
                 ),
                 const SizedBox(width: 20),
-                actionsText(
+                actionsTextButton(
                   'Certificates',
                   onPressed: () {
                     _pageController.animateToPage(
@@ -205,7 +210,7 @@ class _HomeViewState extends State<HomeView> {
                     );
                   },
                 ),
-                actionsText(
+                actionsTextButton(
                   'Contact',
                   onPressed: () {
                     _pageController.animateToPage(
@@ -222,7 +227,7 @@ class _HomeViewState extends State<HomeView> {
                     EndDrawerButton(
                       style: ButtonStyle(
                         alignment: Alignment.centerRight,
-                        foregroundColor: MaterialStateProperty.all(kSecondaryColor),
+                        foregroundColor: WidgetStateProperty.all(kSecondaryColor),
                       ),
                     ),
                   ],
@@ -418,7 +423,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  TextButton actionsText(
+  TextButton actionsTextButton(
     String text, {
     required VoidCallback onPressed,
   }) {

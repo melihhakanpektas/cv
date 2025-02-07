@@ -13,14 +13,35 @@ class CertificatesView extends StatefulWidget {
   State<CertificatesView> createState() => _CertificatesViewState();
 }
 
-class _CertificatesViewState extends State<CertificatesView> {
-  ValueNotifier<int> isHovered = ValueNotifier<int>(-1);
+class _CertificatesViewState extends State<CertificatesView> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    try {
+      _animationController.dispose();
+    } catch (e) {
+      debugPrint('Error during dispose: $e');
+    } finally {
+      super.dispose();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder(
-      duration: const Duration(seconds: 3),
-      tween: Tween<double>(begin: 0, end: 1),
-      builder: (context, double value, child) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        final value = _animationController.value;
         return FadeTransition(
           opacity: CurvedAnimation(
             parent: AlwaysStoppedAnimation(min(1, value * 3)),
