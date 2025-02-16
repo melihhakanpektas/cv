@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:melihhakanpektas/shared/neon_widget.dart';
 
 class AnimatedRow extends StatelessWidget {
   const AnimatedRow({
@@ -21,7 +20,7 @@ class AnimatedRow extends StatelessWidget {
       newPngs = newPngs.reversed.toList();
     }
     const pngWidth = 400.0;
-    const pngHeight = 200.0;
+    const pngHeight = 250;
     const padding = 50.0;
     final pngCountOnScreen = (MediaQuery.of(context).size.width ~/ pngWidth) + 2;
     return OverflowBox(
@@ -37,16 +36,14 @@ class AnimatedRow extends StatelessWidget {
             for (int i = 0; i < pngCountOnScreen; i++)
               Container(
                 width: pngWidth,
-                padding: const EdgeInsets.all(padding),
-                child: Neon(
-                  child: Image.asset(
-                    ltr
-                        ? newPngs[(i + repeatIndex) % newPngs.length]
-                        : newPngs[(newPngs.length - 1 - i + repeatIndex) % newPngs.length],
-                    height: pngHeight - padding * 2,
-                    width: pngWidth - padding * 2,
-                    fit: BoxFit.contain,
-                  ),
+                padding: const EdgeInsets.symmetric(horizontal: padding),
+                child: Image.asset(
+                  ltr
+                      ? newPngs[(i + repeatIndex) % newPngs.length]
+                      : newPngs[(newPngs.length - 1 - i + repeatIndex) % newPngs.length],
+                  height: pngHeight - padding * 2,
+                  width: pngWidth - padding * 2,
+                  fit: BoxFit.contain,
                 ),
               ),
           ],

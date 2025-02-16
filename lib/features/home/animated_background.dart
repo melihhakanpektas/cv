@@ -33,7 +33,7 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     'assets/images/background_images/css_0.png',
     'assets/images/background_images/js_0.png',
   ];
-  final List<List<String>> pngLists = [];
+  List<List<String>> pngLists = [];
   int repeatIndex = 0;
 
   @override
@@ -59,10 +59,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     _controller
       ..addListener(listener)
       ..forward();
-    pngLists
-      ..add(List<String>.from(pngs)..shuffle())
-      ..add(List<String>.from(pngs)..shuffle())
-      ..add(List<String>.from(pngs)..shuffle());
   }
 
   @override
@@ -81,9 +77,15 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    const rowMinHeight = 300.0;
+    final rowCount = size.height ~/ rowMinHeight;
+    if (pngLists.isEmpty || pngLists.length != rowCount) {
+      pngLists = List.generate(rowCount, (index) => List<String>.from(pngs)..shuffle());
+    }
     return Column(
       children: [
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < rowCount; i++)
           AnimatedBuilder(
             animation: _animation,
             builder: (context, child) {
