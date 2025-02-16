@@ -111,7 +111,7 @@ class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin
                                   value < 0.6 ? 0 : min(1, (value - 0.6) * 4),
                                 ),
                                 child: const Text(
-                                  'I am a Mobile Application Developer mostly using Flutter with +4 years of experience',
+                                  'I am a Full Stack Developer mostly for Web and Mobile platforms with +4 years of experience.',
                                   style: TextStyle(fontSize: 18),
                                 ),
                               ),

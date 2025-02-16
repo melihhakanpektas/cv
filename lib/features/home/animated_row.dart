@@ -44,6 +44,8 @@ class AnimatedRow extends StatelessWidget {
                         ? newPngs[(i + repeatIndex) % newPngs.length]
                         : newPngs[(newPngs.length - 1 - i + repeatIndex) % newPngs.length],
                     height: pngHeight - padding * 2,
+                    width: pngWidth - padding * 2,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

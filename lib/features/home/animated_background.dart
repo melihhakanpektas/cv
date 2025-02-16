@@ -28,6 +28,10 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     'assets/images/background_images/c++_0.png',
     'assets/images/background_images/unreal_engine_0.png',
     'assets/images/background_images/blender_0.png',
+    'assets/images/background_images/astro_0.png',
+    'assets/images/background_images/html_0.png',
+    'assets/images/background_images/css_0.png',
+    'assets/images/background_images/js_0.png',
   ];
   final List<List<String>> pngLists = [];
   int repeatIndex = 0;
