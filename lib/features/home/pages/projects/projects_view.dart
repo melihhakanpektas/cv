@@ -70,8 +70,8 @@ class _ProjectsViewState extends State<ProjectsView> {
                                     description:
                                         'A web application where users can quickly receive offers for their technological devices and complete their sales transactions securely from their address. This startup is successfully operating in Turkey.',
                                     usedTechnologies:
-                                        'Flutter, PayTR, Firebase (Functions, Firestore, Storage, Auth)',
-                                    date: '2023',
+                                        'Astro, HTML, CSS, JS, Flutter, PayTR, Firebase (Functions, Firestore, Storage, Auth)',
+                                    date: '2022',
                                     url: 'https://satkapi.com',
                                   ),
                                   ProjectWidget(
@@ -83,7 +83,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                                     usedTechnologies:
                                         'Flutter, PayTR, Firebase (Functions, Firestore, Storage, Auth)',
                                     date: '2023',
-                                    url: 'https://hizlanio.com',
+                                    url: 'https://hizlanio.melihhakanpektas.com',
                                   ),
                                   ProjectWidget(
                                     imagePath: 'assets/images/teachercalendarlogo.png',
